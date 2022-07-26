@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  rewards.api:
+    image: ${DOCKER_REGISTRY-}rewardsapi
+    build:
+      context: .
+      dockerfile: src/Rewards.Api/Dockerfile
