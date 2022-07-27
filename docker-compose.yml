@@ -5,6 +5,8 @@ services:
   rewardsdb:
     image: postgres
   
+  pgadmin:
+    image: dpage/pgadmin4
     
   rewards.api:
     image: ${DOCKER_REGISTRY-}rewardsapi
