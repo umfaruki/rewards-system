@@ -1,8 +1,20 @@
 version: '3.4'
 
 services:
+  
+  rewardsdb:
+    image: postgres
+  
+    
   rewards.api:
     image: ${DOCKER_REGISTRY-}rewardsapi
     build:
       context: .
       dockerfile: src/Rewards.Api/Dockerfile
+                
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+
+

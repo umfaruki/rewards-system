@@ -1,13 +1,29 @@
 version: '3.4'
 
 services:
+  rewardsdb:
+   container_name: rewardsdb
+   environment: 
+     - POSTGRES_USER=admin
+     - POSTGRES_PASSWORD=D2ksx09j
+     - POSTGRES_DB=rewardsDb
+   restart: always
+   ports:
+     - "5433:5432"
+   volumes:
+     - postgres_data:/var/lib/postgresql/data/
+     
+
   rewards.api:
+    container_name: rewards.api
+    build:
+      context: .
+      dockerfile: src/Rewards.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - "DatabaseSettings:ConnectionString=Server=rewardsdb;Port=5432;Database=rewardsdb;User Id=admin;Password=D2ksx09j;"
+    depends_on:
+      - rewardsdb
     ports:
-      - "80"
-      - "443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - "8002:80"
+ 
