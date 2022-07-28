@@ -48,10 +48,7 @@ public class ApplicationDbContextInitializer
     }
 
     public async Task TrySeedAsync()
-    {            
-
-        
-
+    { 
         // Default data
         // Seed, if necessary
         if (!_context.Customers.Any())
@@ -84,11 +81,10 @@ public class ApplicationDbContextInitializer
                 var currentCustomerTransactions = transactionsList.Skip((customer.Id - 1) * 10).Take(10).ToList();
 
                 var i = 0;
-                
                 currentCustomerTransactions.ForEach(transaction => 
                 {
                     var randNumber = rnd.Next(1, 10);
-
+                    
                     transaction.TaxRate = rewardSettings.TaxRate;
                     transaction.CustomerId = customer.Id;
                     transaction.Customer = customer;
@@ -99,26 +95,27 @@ public class ApplicationDbContextInitializer
                     
                     transaction.TransactionItems = new List<TransactionItem>();
                    
-                    var currentTransactionItems = transactionsItemsList.Skip(10).Take(randNumber).ToList();
+                    var currentTransactionItems = transactionsItemsList.Skip(i*10).Take(randNumber).ToList();
                     
                     currentTransactionItems.ForEach(transactionItem => 
                     {
                         transactionItem.Transaction = transaction;                        
-                        transaction.TransactionItems.Add(transactionItem);
+                        transaction.TransactionItems.Add(transactionItem);                        
                     });
 
                     transaction.SubTotal = currentTransactionItems.Sum(x => (x.Price * x.Quantity));
                     transaction.TotalVAT = transaction.SubTotal * (transaction.TaxRate / 100);
                     transaction.GrandTotal = transaction.SubTotal + transaction.SubTotal;
                     customer.Transactions.Add(transaction);
-
-                    i += 10;
+                    i++;
                 });
-               
+                
             });
 
+            _context.Customers.AddRange(customerList);
+            _context.Transactions.AddRange(customerList.SelectMany(x => x.Transactions));
+            _context.TransactionItems.AddRange(customerList.SelectMany(x => x.Transactions).SelectMany(x => x.TransactionItems));
             _context.SaveChanges();
-
         }
     }
 
