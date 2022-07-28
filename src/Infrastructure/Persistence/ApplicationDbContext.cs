@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Application.Common.Interfaces;
 using Domain.Entities.Customers;
+using Domain.Entities.RewardSettings;
 using Domain.Entities.Transactions;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<TransactionItem> TransactionItems => Set<TransactionItem>();
+    public DbSet<RewardSetting> RewardSettings => Set<RewardSetting>();
+    
 
     public override  async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
