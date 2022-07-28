@@ -11,7 +11,7 @@ public class Transaction
     public decimal UpperRangeSpentAmount { get; set; }
     public int UpperRangeSpentPoints { get; set; }
     public decimal SubTotal { get; set; }
-    public int TotalVAT { get; set; }
+    public decimal TotalVAT { get; set; }
     public decimal GrandTotal { get; set; }
     public decimal TaxRate { get; set; }
     public int CustomerId { get; set; }
