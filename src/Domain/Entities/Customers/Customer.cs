@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities.Customers
+﻿using Domain.Entities.Transactions;
+
+namespace Domain.Entities.Customers
 {
     /// <summary>
     /// This is Customer Entity
@@ -16,5 +18,7 @@
         public string Surname { get; set; } = "";
         public string Email { get; set; } = "";
         public string Telephone { get; set; } = "";
+
+        public ICollection<Transaction> Transactions { get; set; }
     }
 }
