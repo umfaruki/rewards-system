@@ -19,6 +19,6 @@ namespace Domain.Entities.Customers
         public string Email { get; set; } = "";
         public string Telephone { get; set; } = "";
 
-        public ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

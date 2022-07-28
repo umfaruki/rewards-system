@@ -15,5 +15,7 @@ public class Transaction
     public int GrandTotal { get; set; }
     public int TaxRate { get; set; }
     public int CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public virtual Customer Customer { get; set; }
+
+    public virtual ICollection<TransactionItem> TransactionItems { get; set; }
 }
