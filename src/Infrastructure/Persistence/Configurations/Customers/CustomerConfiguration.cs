@@ -10,7 +10,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
         builder.Property(t => t.CustomerNumber)
-            .HasMaxLength(5)
+            .HasMaxLength(15)
             .IsRequired();
 
         builder.Property(t => t.DateJoined)           

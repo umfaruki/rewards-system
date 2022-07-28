@@ -99,7 +99,7 @@ public class ApplicationDbContextInitializer
                     
                     transaction.TransactionItems = new List<TransactionItem>();
                    
-                    var currentTransactionItems = transactionsItemsList.Take(randNumber).ToList();
+                    var currentTransactionItems = transactionsItemsList.Skip(10).Take(randNumber).ToList();
                     
                     currentTransactionItems.ForEach(transactionItem => 
                     {
@@ -112,7 +112,6 @@ public class ApplicationDbContextInitializer
                     transaction.GrandTotal = transaction.SubTotal + transaction.SubTotal;
                     customer.Transactions.Add(transaction);
 
-                    transactionsItemsList.RemoveAll(x => currentTransactionItems.Contains(x));
                     i += 10;
                 });
                
