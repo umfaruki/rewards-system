@@ -5,7 +5,7 @@ namespace Domain.Entities.Transactions;
 public class Transaction
 {
     public int Id { get; set; }    
-    public int DateCreated { get; set; }
+    public DateTime DateCreated { get; set; }
     public decimal MinSpentAmount { get; set; }
     public int MinSpentAmountPoints { get; set; }
     public decimal UpperRangeSpentAmount { get; set; }
