@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "Firstname": "Deni",
+    "Surname": "Sinfield",
+    "Email": "dsinfield0@blogs.com",
+    "Telephone": "118-391-6894",
+    "CustomerNumber": "74-4697283",
+    "DateJoined": "04/24/2022"
+  },
+  {
+    "Id": 2,
+    "Firstname": "Minta",
+    "Surname": "Trevithick",
+    "Email": "mtrevithick1@barnesandnoble.com",
+    "Telephone": "498-403-7304",
+    "CustomerNumber": "06-5626443",
+    "DateJoined": "10/30/2021"
+  },
+  {
+    "Id": 3,
+    "Firstname": "Billy",
+    "Surname": "Marritt",
+    "Email": "bmarritt2@ox.ac.uk",
+    "Telephone": "898-670-8961",
+    "CustomerNumber": "45-8508081",
+    "DateJoined": "05/18/2022"
+  },
+  {
+    "Id": 4,
+    "Firstname": "Lauren",
+    "Surname": "Sphinxe",
+    "Email": "lsphinxe3@theatlantic.com",
+    "Telephone": "867-387-6246",
+    "CustomerNumber": "77-7728923",
+    "DateJoined": "02/17/2022"
+  },
+  {
+    "Id": 5,
+    "Firstname": "Ingrim",
+    "Surname": "Erasmus",
+    "Email": "ierasmus4@hao123.com",
+    "Telephone": "939-759-7634",
+    "CustomerNumber": "50-4606430",
+    "DateJoined": "07/19/2022"
+  },
+  {
+    "Id": 6,
+    "Firstname": "Lazare",
+    "Surname": "Blackford",
+    "Email": "lblackford5@google.pl",
+    "Telephone": "801-686-2600",
+    "CustomerNumber": "55-8253183",
+    "DateJoined": "11/18/2021"
+  },
+  {
+    "Id": 7,
+    "Firstname": "Nickolaus",
+    "Surname": "Rathbourne",
+    "Email": "nrathbourne6@gizmodo.com",
+    "Telephone": "834-457-7350",
+    "CustomerNumber": "89-2608494",
+    "DateJoined": "05/30/2022"
+  },
+  {
+    "Id": 8,
+    "Firstname": "Margie",
+    "Surname": "Foskew",
+    "Email": "mfoskew7@psu.edu",
+    "Telephone": "973-194-6370",
+    "CustomerNumber": "81-7208288",
+    "DateJoined": "06/21/2022"
+  },
+  {
+    "Id": 9,
+    "Firstname": "Mikaela",
+    "Surname": "Klimes",
+    "Email": "mklimes8@miibeian.gov.cn",
+    "Telephone": "359-644-7690",
+    "CustomerNumber": "75-9184372",
+    "DateJoined": "04/27/2022"
+  },
+  {
+    "Id": 10,
+    "Firstname": "Mendie",
+    "Surname": "Dewey",
+    "Email": "mdewey9@people.com.cn",
+    "Telephone": "401-566-3231",
+    "CustomerNumber": "24-3558181",
+    "DateJoined": "03/23/2022"
+  }
+]
