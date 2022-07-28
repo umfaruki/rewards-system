@@ -7,5 +7,5 @@ public class RewardSetting
     public int MinSpentAmountPoints { get; set; }
     public decimal UpperRangeSpentAmount { get; set; }
     public int UpperRangeSpentPoints { get; set; }
-    public int TaxRate { get; set; }
+    public decimal TaxRate { get; set; }
 }
