@@ -8,6 +8,6 @@ public class TransactionItem
     public int Quantity { get; set; }
 
     public int TransactionId { get; set; }
-    public Transaction Transaction { get; set; }
+    public virtual Transaction Transaction { get; set; }
 
 }
