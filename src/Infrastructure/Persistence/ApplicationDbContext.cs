@@ -2,7 +2,6 @@
 using Application.Common.Interfaces;
 using Domain.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Persistence;
 

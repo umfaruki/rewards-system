@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence;
 
-public class ApplicationDbContextInitialiser
+public class ApplicationDbContextInitializer
 {
-    private readonly ILogger<ApplicationDbContextInitialiser> _logger;
+    private readonly ILogger<ApplicationDbContextInitializer> _logger;
     private readonly ApplicationDbContext _context;
     
-    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context)
+    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context)
     {
         _logger = logger;
         _context = context;

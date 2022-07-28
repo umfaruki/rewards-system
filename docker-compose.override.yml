@@ -6,10 +6,10 @@ services:
     environment: 
      - POSTGRES_USER=admin
      - POSTGRES_PASSWORD=admin1234
-     - POSTGRES_DB=RewardsDb
+     - POSTGRES_DB=rewardsdb
     restart: always
     ports:
-     - "5433:5432"
+     - "5432:5432"
     volumes:
      - postgres_data:/var/lib/postgresql/data/
 
@@ -32,7 +32,7 @@ services:
       dockerfile: src/Rewards.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=Server=RewardsDb;Port=5432;Database=RewardsDb;User Id=admin;Password=admin1234;"
+      - "DatabaseSettings:ConnectionString=Server=rewardsdb;Port=5432;Database=rewardsdb;User Id=admin;Password=admin1234;"
     depends_on:
       - rewardsdb
     ports:
