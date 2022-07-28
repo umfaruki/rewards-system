@@ -14,6 +14,7 @@ public class Transaction
     public decimal TotalVAT { get; set; }
     public decimal GrandTotal { get; set; }
     public decimal TaxRate { get; set; }
+    public int TotalPoints { get; set; } = 0;
     public int CustomerId { get; set; }
     public virtual Customer Customer { get; set; }
 
