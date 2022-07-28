@@ -18,9 +18,4 @@
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
 
-
-	<ItemGroup>
-	  <Folder Include="Persistence\Configurations\Transactions\" />
-	</ItemGroup>
-
 </Project>
