@@ -1,9 +1,12 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Reflection;
 using Application.Common.Interfaces;
 using Domain.Entities.Customers;
 using Domain.Entities.RewardSettings;
 using Domain.Entities.Transactions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence;
 
@@ -14,7 +17,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
        
     }
-
+    
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<TransactionItem> TransactionItems => Set<TransactionItem>();
@@ -27,6 +30,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
         return result;
     }
+
+    
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

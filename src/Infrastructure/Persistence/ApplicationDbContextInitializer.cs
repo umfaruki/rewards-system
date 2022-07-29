@@ -3,7 +3,7 @@ using Domain.Entities.Transactions;
 using Infrastructure.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+
 
 namespace Infrastructure.Persistence;
 
@@ -51,6 +51,7 @@ public class ApplicationDbContextInitializer
     { 
         // Default data
         // Seed, if necessary
+        
         if (!_context.Customers.Any())
         {
             if (!_context.RewardSettings.Any())

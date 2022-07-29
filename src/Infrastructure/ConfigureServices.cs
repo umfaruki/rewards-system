@@ -18,6 +18,8 @@ public static class ConfigureServices
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbContextInitializer>();
+        services.AddTransient<IDapperMonthlyReportHandler, DapperMonthlyReportHandler>();
+        
 
         return services;
     }
