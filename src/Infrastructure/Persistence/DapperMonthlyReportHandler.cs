@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence
 
             var affected =
                 await connection.ExecuteAsync
-                ("UPDATE public.\"Transactions\" Set TotalPoints = 0 Where SubTotal < MinSpentAmount AND Year(DateCreated)=@Year and Month(DateCreated) In (@Months)",
+                ("UPDATE Transactions Set TotalPoints = 0 Where SubTotal < MinSpentAmount AND date_part('year', DateCreated)=@Year and date_part('month', DateCreated) In (@Months)",
                     new { Year = year, Months = string.Join(",", months) });
 
 
@@ -40,10 +40,9 @@ namespace Infrastructure.Persistence
 
             var affected =
                 await connection.ExecuteAsync
-                ("UPDATE public.\"Transactions\" Set TotalPoints = ((SubTotal - MinSpentAmount) * MinSpentAmountPoints) + ((SubTotal - UpperRangeSpentAmount) * UpperRangeSpentPoints) Where SubTotal > UpperRangeSpentAmount AND Year(DateCreated)=@Year and Month(DateCreated) In (@Months)",
+                (@"UPDATE Transactions Set TotalPoints = ((SubTotal - MinSpentAmount) * MinSpentAmountPoints) 
+                        Where SubTotal > MinSpentAmount And SubTotal < UpperRangeSpentAmount AND date_part('year', DateCreated)=@Year and date_part('month', DateCreated) In (@Months)",
                     new { Year = year, Months = string.Join(",", months) });
-
-
 
         }
 
@@ -55,11 +54,9 @@ namespace Infrastructure.Persistence
 
             var affected =
                 await connection.ExecuteAsync
-                ("UPDATE public.\"Transactions\" Set TotalPoints = ((SubTotal - MinSpentAmount) * MinSpentAmountPoints) + ((SubTotal - UpperRangeSpentAmount) * UpperRangeSpentPoints) Where SubTotal > UpperRangeSpentAmount AND Year(DateCreated)=@Year and Month(DateCreated) In (@Months)",
-                    new { Year = year, Months = string.Join(",", months) });
-
-          
-
+                (@"UPDATE Transactions Set TotalPoints = ((SubTotal - MinSpentAmount) * MinSpentAmountPoints) + ((SubTotal - UpperRangeSpentAmount) * UpperRangeSpentPoints) 
+                    Where SubTotal > UpperRangeSpentAmount AND date_part('year', DateCreated)=@Year and date_part('month', DateCreated) In (@Months)",
+                    new { Year = year, Months = string.Join(",", months) }); 
         }
 
 
