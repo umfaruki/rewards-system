@@ -7,7 +7,7 @@ namespace Rewards.Api.Controllers
     public class TransactionController : ApiControllerBase 
     {
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<MonthlyPointsReportDto>>> MonthlyPointsReports([FromQuery] MonthlyPointsReportQuery query)
+        public async Task<ActionResult<List<MonthlyPointsReportDto>>> MonthlyPointsReports([FromQuery] MonthlyPointsReportQuery query)
         {
             return await Mediator.Send(query);
         }

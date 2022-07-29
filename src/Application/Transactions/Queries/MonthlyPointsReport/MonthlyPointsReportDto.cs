@@ -8,11 +8,15 @@ namespace Application.Transactions.Queries.MonthlyPointsReport
 {
     public class MonthlyPointsReportDto
     {
+        public MonthlyPointsReportDto()
+        {
+            MonthlyPoints = new List<MonthlyPointsReportVm>();
+        }
         public string CustomerNumber { get; set; }
         public string FirstName { get; set; }   
         public string Surname { get; set; } 
 
-        public List<MonthlyPointsReportVm> MonthlyPoints { get; set; }
+        public List<MonthlyPointsReportVm> MonthlyPoints { get; private set; }
         public decimal TotalPoints { get; set; }
 
     }

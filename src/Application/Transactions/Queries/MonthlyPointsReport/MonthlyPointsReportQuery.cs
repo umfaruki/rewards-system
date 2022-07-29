@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.ExtentionMethods;
 using Application.Common.Interfaces;
 using Application.Common.Model;
 using MediatR;
@@ -12,15 +13,13 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Application.Transactions.Queries.MonthlyPointsReport;
 
-public class MonthlyPointsReportQuery : IRequest<PaginatedList<MonthlyPointsReportDto>>
-{
-    public int PageNumber { get; init; } = 1;
-    public int PageSize { get; init; } = 10;
+public class MonthlyPointsReportQuery : IRequest<List<MonthlyPointsReportDto>>
+{    
     public int  Year { get; set; }
     public int[] Months { get; set; }
 }
 
-public class MonthlyPointsReportQueryHandler : IRequestHandler<MonthlyPointsReportQuery, PaginatedList<MonthlyPointsReportDto>>
+public class MonthlyPointsReportQueryHandler : IRequestHandler<MonthlyPointsReportQuery, List<MonthlyPointsReportDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IDapperMonthlyReportHandler _dapperTransactionReportRepository;
@@ -33,32 +32,14 @@ public class MonthlyPointsReportQueryHandler : IRequestHandler<MonthlyPointsRepo
         _dapperTransactionReportRepository = dapperTransactionReportRepository;
     }
 
-    public async Task<PaginatedList<MonthlyPointsReportDto>> Handle(MonthlyPointsReportQuery request, CancellationToken cancellationToken)
+    public async Task<List<MonthlyPointsReportDto>> Handle(MonthlyPointsReportQuery request, CancellationToken cancellationToken)
     {
-
-
-
         await _dapperTransactionReportRepository.CalculateTransactionPoints(request.Year, request.Months);
+        var transactionData = await _dapperTransactionReportRepository.GetTransactionData(request.Year, request.Months);
 
-/*
-        var transactions = await _context
-            .Transactions.GroupBy(t => new
-            {
-                Month = t.DateCreated.Month,
-                Year = t.DateCreated.Year,
-                CustomerId = t.CustomerId,
-                
-            }).Select(tt => new MonthlyPointsReportVm()
-            {
-                CustomerId = tt.Key.CustomerId,
-                Month = tt.Key.Month,
-                Year = tt.Key.Year
-            }).ToListAsync();
+        var monthlyPointsReports = transactionData.GenerateReport(request);
 
-        */
-        throw new NotImplementedException();
-
-
+        return monthlyPointsReports;
     }
 }
 
