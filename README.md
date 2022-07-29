@@ -52,7 +52,7 @@ By understanding the problem statement we have created 3 tables
 Customers - stores the customer information
 Columns:
 ```
-	  Id
+    Id
     CustomerNumber
     DateJoined
     Firstname
@@ -78,7 +78,7 @@ Columns:
 ```
 TransactionItems - stores the number of transaction-items per transaction against each transaction, transactionId is used as foregionKey here 
 Columns:	 
-	 ```
+ ```
      Id
      ItemDescription
      Price  
@@ -87,12 +87,12 @@ Columns:
 ```
 RewardSettings - Just contains the a single record with the reward settings (e.g. Reward point calculations limits from problem statement)
 Columns:
-	```
-  MinSpentAmount			= 50
+```
+  	MinSpentAmount		= 50
 	MinSpentAmountPoints	= 1
 	UpperRangeSpentAmount	= 100
 	UpperRangeSpentPoints	= 1
-	TaxRate					= 20
+	TaxRate			= 20
 ```
 
 
