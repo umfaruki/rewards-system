@@ -22,20 +22,20 @@ public class MonthlyPointsReportQuery : IRequest<List<MonthlyPointsReportDto>>
 public class MonthlyPointsReportQueryHandler : IRequestHandler<MonthlyPointsReportQuery, List<MonthlyPointsReportDto>>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IDapperMonthlyReportHandler _dapperTransactionReportRepository;
+    private readonly IDapperMonthlyReportHandler _dapperTransactionReportHandler;
 
 
     public MonthlyPointsReportQueryHandler(IApplicationDbContext context, 
-        IDapperMonthlyReportHandler dapperTransactionReportRepository)
+        IDapperMonthlyReportHandler dapperTransactionReportHandler)
     {
         _context = context;
-        _dapperTransactionReportRepository = dapperTransactionReportRepository;
+        _dapperTransactionReportHandler = dapperTransactionReportHandler;
     }
 
     public async Task<List<MonthlyPointsReportDto>> Handle(MonthlyPointsReportQuery request, CancellationToken cancellationToken)
     {
-        await _dapperTransactionReportRepository.CalculateTransactionPoints(request.Year, request.Months);
-        var transactionData = await _dapperTransactionReportRepository.GetTransactionData(request.Year, request.Months);
+        await _dapperTransactionReportHandler.CalculateTransactionPoints(request.Year, request.Months);
+        var transactionData = await _dapperTransactionReportHandler.GetTransactionData(request.Year, request.Months);
 
         var monthlyPointsReports = transactionData.GenerateReport(request);
 

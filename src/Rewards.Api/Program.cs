@@ -1,4 +1,5 @@
 using Infrastructure.Persistence;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,11 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebUIServices();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+var httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+    .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
+
+builder.Services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(httpRetryPolicy);
 
 var app = builder.Build();
 
@@ -24,8 +30,6 @@ if (app.Environment.IsDevelopment())
         await initialiser.InitialiseAsync();
         await initialiser.SeedAsync();
     }
-
-
 }
 
 app.UseHttpsRedirection();
