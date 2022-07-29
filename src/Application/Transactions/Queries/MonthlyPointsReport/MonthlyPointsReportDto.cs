@@ -12,6 +12,7 @@ namespace Application.Transactions.Queries.MonthlyPointsReport
         {
             MonthlyPoints = new List<MonthlyPointsReportVm>();
         }
+        public int CustomerId { get; set; }
         public string CustomerNumber { get; set; }
         public string FirstName { get; set; }   
         public string Surname { get; set; } 

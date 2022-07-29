@@ -14,6 +14,7 @@ public static class MonthlyPointsExtentions
         uniqueCustomers.ForEach(customer =>
         {
             var customerReport = new MonthlyPointsReportDto();
+            customerReport.CustomerId = customer.CustomerId;
             customerReport.FirstName = customer.Firstname;
             customerReport.Surname = customer.Surname;
             customerReport.CustomerNumber = customer.CustomerNumber;
@@ -25,7 +26,6 @@ public static class MonthlyPointsExtentions
                 {
                     customerReport.MonthlyPoints.Add(new MonthlyPointsReportVm
                     {
-                        CustomerId = customer.CustomerId,
                         Month = month,
                         MonthAndYear = $"{month}/{request.Year.ToString()}",
                         Year = request.Year,

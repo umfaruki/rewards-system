@@ -26,9 +26,6 @@ namespace Infrastructure.Persistence
                 await connection.ExecuteAsync
                 ("UPDATE Transactions Set TotalPoints = 0 Where SubTotal < MinSpentAmount AND date_part('year', DateCreated)=@Year and date_part('month', DateCreated) = Any(@Months)",
                     new { Year = year, Months = months });
-
-
-
         }
 
 
@@ -43,7 +40,6 @@ namespace Infrastructure.Persistence
                 (@"UPDATE Transactions Set TotalPoints = ((SubTotal - MinSpentAmount) * MinSpentAmountPoints) 
                         Where SubTotal > MinSpentAmount And SubTotal < UpperRangeSpentAmount AND date_part('year', DateCreated)=@Year and date_part('month', DateCreated) = Any(@Months)",
                     new { Year = year, Months = months });
-
         }
 
 
