@@ -1,3 +1,4 @@
+using Application.Common.Behaviours;
 using Infrastructure.Persistence;
 using Polly;
 
@@ -15,6 +16,8 @@ var httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccess
 
 builder.Services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(httpRetryPolicy);
 
+builder.Services.AddHealthChecks().AddCheck<HealthCheckAsync>("");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +34,8 @@ if (app.Environment.IsDevelopment())
         await initialiser.SeedAsync();
     }
 }
+
+app.MapHealthChecks("/health");
 
 app.UseHttpsRedirection();
 
