@@ -1,16 +1,9 @@
 # Rewards System
 
 
-
-
-
 ## Problem Statement
 
-
-
 A retailer offers a rewards program to its customers, awarding points based on each recorded purchase as follows:
-
- 
 
 For every dollar spent over $50 on the transaction, the customer receives one point.
 
@@ -21,9 +14,7 @@ Ex: for a $120 purchase, the customer receives
 `(120 - 50) x 1 + (120 - 100) x 1 = 90 points`
 
 
-
 Given a record of every transaction during a three-month period, calculate the reward points earned for each customer per month and total. 
-
 
 
 
@@ -32,7 +23,7 @@ Given a record of every transaction during a three-month period, calculate the r
 
 
 
-I based my solution on Clean Architecture. For more information please visit https://github.com/jasontaylordev/CleanArchitecture
+I based my solution on `Clean Architecture`. For more information please visit https://github.com/jasontaylordev/CleanArchitecture
 
 I am using a code first approach with Asp.Net Core 6.0 with EntityFramework core and Dapper, using EntityFramework migrations to create a database.
 
@@ -46,19 +37,13 @@ I am using a code first approach with Asp.Net Core 6.0 with EntityFramework core
 ## How to Run:
 
 
-
 We are using Docker, please make sure docker is installed on your system.
-
 If using windows then open command prompt and navigate to solution folder
-
-
-Run the following commands
+Run the following commands:
 
 ```
 1. Build: docker-compose -f docker-compose.yml -f docker-compose.override.yml build
-
 2. Run:      docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
-
 ```
 
 >To run the Api please navigate to http://localhost:8002/swagger 
@@ -141,43 +126,107 @@ Columns:
     UpperRangeSpentPoints   = 1
     TaxRate                 = 20
 ```
-
-
-
-
-## Business Logic:
-
-
-The idea is to save point calculation information with each transaction, so then, sometimes if the vendor changes the criteria (e.g. 2 points for more than 100), then old transactions remain intact.
-
-a realIn real world scenario, at the time of saving transaction, we should calculate the points and save to the database. For assignment, I am calculating it when I call api-endpoint.
-
+## Application Structure:
+There is only one controller in system TransactionController with method below
+```
+        [HttpGet]
+        public async Task<ActionResult<List<MonthlyPointsReportDto>>> MonthlyPointsReports([FromQuery] MonthlyPointsReportQuery query)
+        {
+            return await Mediator.Send(query);
+        }
+```
+When it called it send call to `MonthlyPointsReportQueryHandler` via Mediator. Call received by Handle method in Hanler.
+Below code is responsible for generating reward points and returning them.
+```
+ public async Task<List<MonthlyPointsReportDto>> Handle(MonthlyPointsReportQuery request, CancellationToken cancellationToken)
+    {
+        await _dapperTransactionReportHandler.CalculateTransactionPoints(request.Year, request.Months);
+        var transactionData = await _dapperTransactionReportHandler.GetTransactionData(request.Year, request.Months);
+        var monthlyPointsReports = transactionData.GenerateReport(request);
+        return monthlyPointsReports;
+    }
+```
+From above code ` await _dapperTransactionReportHandler.GetTransactionData(request.Year, request.Months);` send call to Dapper handler to calculate points
 >Below is the code where we are calculating the points:
 ![Points Calculation](https://i.postimg.cc/Bnt0d4kx/points-calculation.png)
 
+After calculating the points system send call to `transactionData.GenerateReport(request)` to generate report which we are going to return to api request.
+We are using an Extention method to generate response `MonthlyPointsExtentions`
+
+```
+public static List<MonthlyPointsReportDto> GenerateReport(this List<RawTransactionsData> transactionData, MonthlyPointsReportQuery request)
+    {
+        var monthlyPointsReports = new List<MonthlyPointsReportDto>();
+
+        var uniqueCustomers = transactionData.Select(x => new { x.CustomerId, x.Firstname, x.Surname, x.CustomerNumber }).Distinct().ToList();
+
+        uniqueCustomers.ForEach(customer =>
+        {
+            var customerReport = new MonthlyPointsReportDto();
+            customerReport.CustomerId = customer.CustomerId;
+            customerReport.FirstName = customer.Firstname;
+            customerReport.Surname = customer.Surname;
+            customerReport.CustomerNumber = customer.CustomerNumber;
+
+            request.Months.ToList().ForEach(month =>
+            {
+                var customerMonthlyData = transactionData.FirstOrDefault(x => x.Year == request.Year && x.Month == month && x.CustomerId == customer.CustomerId);
+                if (customerMonthlyData != null)
+                {
+                    customerReport.MonthlyPoints.Add(new MonthlyPointsReportVm
+                    {
+                        Month = month,
+                        MonthAndYear = $"{month}/{request.Year.ToString()}",
+                        Year = request.Year,
+                        MonthlyTotal = customerMonthlyData.TotalPoints,
+                    });
+                }
+            });
+            customerReport.TotalPoints = customerReport.MonthlyPoints.Sum(x => x.MonthlyTotal);
+            monthlyPointsReports.Add(customerReport);
+        });
+        return monthlyPointsReports;
+    }
+```
+The idea is to **save point calculation information with each transaction**, so then, sometimes if the vendor changes the criteria (e.g. 2 points for more than 100), then old transactions remain intact.
+
+`In real world scenario, at the time of saving transaction, we should calculate the points and save to the database. For assignment, I am calculating it when I call api-endpoint.`
+
+
 **Seeding Data** 
 >I am seeding data from Mock Json files, I am using 3 json files and my code logic randomly assigning transaction items to each transaction. If you need to test anything there are two ways either update the database directly and call api end-point or update the json data.
+Json files are created by onlie tool [Mockaroo](https://www.mockaroo.com/)
+ /src/Rewards.Api/DataSeed
+ 
+[![json-files.png](https://i.postimg.cc/5y2g24k8/json-files.png)](https://postimg.cc/tZ8Wrjbg)
 
+I am reading these from one generic method
+ApplicationDbContextInitializer.cs
+```
+    var customerList = MockDataHelper.GetMockData<Customer>();
+    var transactionsList = MockDataHelper.GetMockData<Transaction>();
+    var transactionsItemsList = MockDataHelper.GetMockData<TransactionItem>();
+```
+[![mockhelper.png](https://i.postimg.cc/VshnCWJx/mockhelper.png)](https://postimg.cc/6Td8sRLc)
 
+Below is the complete logic to seed data.
+For each customer system loops on transactions and assign 10 transactions per customer
+Then system randomly (1 to 10) assign products to each transaction and calculate price according to assigned products quantity.
+[![seed-data.png](https://i.postimg.cc/cHr7p9Kc/seed-data.png)](https://postimg.cc/TLvWmcJy)
 ## Request:
 
 Following request will bring the data for year 2022 and for months 5 and 6
 
-
-
 ```
 https://localhost:8005/api/Transaction?Year=2022&Months=5&Months=6'
-
 ```
 
 ## Response:
 
 something like below
-
 > 
 
 ```
-
 [   
     {
         "customerId": 5,
@@ -194,9 +243,7 @@ something like below
         ],
         "totalPoints": 90
     },
-
 ]
-
 ```
 
 
