@@ -242,8 +242,12 @@ _docker-compose.override.yml_
 
 The following request will bring the data for the year 2022 and months 5 and 6
 
+
 ```
-https://localhost:8005/api/Transaction?Year=2022&Months=5&Months=6'
+https://localhost:8005/api/Transaction/monthly-points-reports/YEAR/COMMA SEPRATED MONTHS'
+
+e.g.
+https://localhost:8005/api/Transaction/monthly-points-reports/2022/5,6'
 ```
 
 ## Response:
@@ -274,7 +278,7 @@ something like below
 
 Request/Response in Postman
 
-![Postman Call](https://i.postimg.cc/fTzZfxvq/postman.png)
+![postman-resp.png](https://i.postimg.cc/3xCh7m3N/postman-resp.png)
 
 
 
