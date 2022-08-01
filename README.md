@@ -36,6 +36,7 @@ I am using a code first approach with Asp.Net Core 6.0 with EntityFramework core
 
 ## How to Run:
 
+_**Docker**_
 
 We are using Docker, please make sure docker is installed on your system.
 If using windows then open command prompt and navigate to solution folder
@@ -43,7 +44,7 @@ Run the following commands:
 
 ```
 1. Build: docker-compose -f docker-compose.yml -f docker-compose.override.yml build
-2. Run:      docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+2. Run:   docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 ```
 
 >To run the Api please navigate to http://localhost:8002/swagger 
@@ -53,10 +54,13 @@ Run the following commands:
 For database administration we are using pgAdmin you access it directly by navigating to link below
 
 >pdAdmin: http://localhost:5000
-with username: libra_dn@hotmail.com and password: admin1234
+with `username: libra_dn@hotmail.com` and `password: admin1234`
 
 
+ _**Without Docker**_
 
+If you want to run it without docker, `PostgreSQL` is required, 
+Just update the connection string in RewardsApi/appsettings.js and run the api.
 
 
 
@@ -198,7 +202,7 @@ The idea is to **save point calculation information with each transaction**, so 
 Json files are created by onlie tool [Mockaroo](https://www.mockaroo.com/)
  /src/Rewards.Api/DataSeed
  
-[![json-files.png](https://i.postimg.cc/5y2g24k8/json-files.png)](https://postimg.cc/tZ8Wrjbg)
+![json-files.png](https://i.postimg.cc/5y2g24k8/json-files.png)
 
 I am reading these from one generic method
 ApplicationDbContextInitializer.cs
@@ -207,12 +211,32 @@ ApplicationDbContextInitializer.cs
     var transactionsList = MockDataHelper.GetMockData<Transaction>();
     var transactionsItemsList = MockDataHelper.GetMockData<TransactionItem>();
 ```
-[![mockhelper.png](https://i.postimg.cc/VshnCWJx/mockhelper.png)](https://postimg.cc/6Td8sRLc)
+![mockhelper.png](https://i.postimg.cc/VshnCWJx/mockhelper.png)
 
 Below is the complete logic to seed data.
 For each customer system loops on transactions and assign 10 transactions per customer
 Then system randomly (1 to 10) assign products to each transaction and calculate price according to assigned products quantity.
-[![seed-data.png](https://i.postimg.cc/cHr7p9Kc/seed-data.png)](https://postimg.cc/TLvWmcJy)
+![seed-data.png](https://i.postimg.cc/cHr7p9Kc/seed-data.png)
+
+## Dockerization
+
+Created a docker file in RewardsApi folder
+
+![ApiDocker](https://i.postimg.cc/mD75M8MY/docker-api.png)
+
+Added files `docker-compose.yml` and `docker-compose.override.yml`
+
+![files](https://i.postimg.cc/QM2zHRBN/docker-files.png)
+
+>These contains configuration for running PostgreSQL and pgAdmin configuring ports setting up credentials
+
+_docker-compose.yml_
+
+![Docker](https://i.postimg.cc/K8swyKxM/docker.png)
+
+_docker-compose.override.yml_
+![Override](https://i.postimg.cc/gjdBK8qf/docker-override.png)
+
 ## Request:
 
 Following request will bring the data for year 2022 and for months 5 and 6
